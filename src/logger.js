@@ -1,18 +1,17 @@
 const winston = require('winston');
 const { createLogger, format, transports } = winston;
-const { timestamp, prettyPrint, combine, simple } = format;
+const { timestamp, label, combine, simple } = format;
 
 const logger = createLogger({
     level: 'info',
     format: combine(
+        label({ label: 'MongoDB' }),
+        timestamp({ format: 'MMM-DD-YYYY HH:mm:ss' }),
         format.json(),
-        timestamp(),
-        prettyPrint()
     ),
     transports: [
         new winston.transports.File({
-            filename:'log info',
-            format: simple(),
+            filename: 'logs/log-info.log',
         }),
         new winston.transports.Console({
             format: simple(),
